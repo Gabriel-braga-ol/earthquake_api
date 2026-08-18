@@ -31,11 +31,11 @@ class Command(BaseCommand):
                 latitude = feature["geometry"]["coordinates"][1]
                 depth = feature["geometry"]["coordinates"][2]  
     
-                event_time = datetime.fromtimestamp(timestamp_ms / 1000, tz=timezone.utc)
+                event_time = datetime.fromtimestamp(timestamp_ms / 1000, tz=timezone.utc) # pega o numero em segundos e transforma em objeto datetime
     
-                Earthquake.objects.update_or_create (
+                Earthquake.objects.update_or_create ( # decide se vai criar um registro novo ou atualizar um existente, usando o external_id como critério de busca
                     external_id = external_id,
-                    defaults= {
+                    defaults= { # depois insere os valores na coluna
                         "magnitude": magnitude,
                         "place": place,
                         "latitude": latitude,
