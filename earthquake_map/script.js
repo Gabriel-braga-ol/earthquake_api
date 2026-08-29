@@ -11,7 +11,14 @@ async function buscarTerremotos() {
         .pointLat('latitude')
         .pointLng('longitude')
         .pointColor(() => 'red')
-        .pointAltitude(0.01);
+        .pointAltitude(0.01)
+        .pointLabel(terremoto => {
+            const dataFormatada = new Date(terremoto.time).toLocaleString('pt-BR');
+            return `<b>${terremoto.place}</b><br>
+                Magnitude: ${terremoto.magnitude}<br>
+                Profundidade: ${terremoto.depth} km<br>
+                Data: ${dataFormatada}`;
+        });
 }
 
 buscarTerremotos();
