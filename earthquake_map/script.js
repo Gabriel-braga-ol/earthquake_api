@@ -10,8 +10,13 @@ async function buscarTerremotos() {
         .pointsData(dados.results)
         .pointLat('latitude')
         .pointLng('longitude')
-        .pointColor(() => 'red')
-        .pointAltitude(0.01)
+        .pointColor(terremoto => {
+            if (terremoto.magnitude <= 5) {
+                return 'white'
+            }
+            return 'red'
+        })
+        .pointAltitude(terremoto => terremoto.magnitude * 0.02)
         .pointLabel(terremoto => {
             const dataFormatada = new Date(terremoto.time).toLocaleString('pt-BR');
             return `<b>${terremoto.place}</b><br>
