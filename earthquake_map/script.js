@@ -2,6 +2,12 @@ const globo = Globe()
     .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
     (document.getElementById('globo'));
 
+async function desenharPlacasTectonicas() {
+    const resposta = await fetch('https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_boundaries.json');
+    const dados = await resposta.json();
+    return dados.features;
+}
+
 async function buscarTerremotos() {
     const resposta = await fetch('http://127.0.0.1:8000/api/earthquakes/?page_size=1000');
     const dados = await resposta.json();
@@ -26,4 +32,17 @@ async function buscarTerremotos() {
         });
 }
 
-buscarTerremotos();
+async function iniciarGlobo() {
+    const placas = await desenharPlacasTectonicas()
+
+    globo
+        .pathsData(placas)
+        .pathPoints(feature => feature.geometry.coordinates)
+        .pathPointLat(coord => coord[1])
+        .pathPointLng(coord => coord[0])
+        .pathColor(() => 'yellow');
+
+    buscarTerremotos();
+}
+
+iniciarGlobo();
