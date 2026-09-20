@@ -9,7 +9,7 @@ async function desenharPlacasTectonicas() {
 }
 
 async function buscarTerremotos() {
-    const resposta = await fetch('http://127.0.0.1:8000/api/earthquakes/?page_size=1000');
+    const resposta = await fetch('https://recent-earthquakes.onrender.com/api/earthquakes/?page_size=1000');
     const dados = await resposta.json();
 
     globo
